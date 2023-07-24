@@ -302,13 +302,12 @@ The CA Name (Used for filtering AD objects).
     )
 
     # Enable the template
-    # TODO: We need to allow inheritance to allow full control over the CN=Public Key Services container before we can do this
     $ConfigContext = ([ADSI]"LDAP://RootDSE").configurationNamingContext
     $ConfigContext = "CN=Enrollment Services,CN=Public Key Services,CN=Services,$ConfigContext"
     $filter = "(cn=$CAName)"
     $ds = New-object System.DirectoryServices.DirectorySearcher([ADSI]"LDAP://$ConfigContext",$filter)
     $CAObject = $ds.Findone().GetDirectoryEntry()
-    # Update the value to not contain the certificate template
+    # Update the value to contain the certificate template
     $CAObject.Properties['certificateTemplates'].Value += "$TemplateName"
     $CAObject.commitchanges()
 
