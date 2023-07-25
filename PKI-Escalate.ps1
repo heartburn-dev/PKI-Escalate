@@ -389,15 +389,6 @@ The name of the Certificate Authority (Used for filtering)
     $CAObject.Properties['certificateTemplates'].Value = $ArrayTemplateList
     $CAObject.commitchanges()
 
-    # Loop over and regex out the template names
-    foreach ($Template in $TemplateList) {
-        if ($Template -eq $TemplateName) {  
-            echo "[!] The template does not appear to have been properly removed from the store. Try removing it manually!"
-            sleep 5
-            exit  
-        }
-    }
-
     $DeleteTemplate = ((1..20 | %{ '{0:X}' -f (Get-Random -Max 16) }) -Join '') + ".ldf"
     Add-Content -Path $DeleteTemplate -Value "dn: CN=$TemplateName,CN=Certificate Templates,CN=Public Key Services,CN=Services,CN=Configuration,DC=$RootDomain,DC=$Tld"
     Add-Content -Path $DeleteTemplate -Value "changetype: delete"
