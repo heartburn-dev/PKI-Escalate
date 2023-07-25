@@ -9,7 +9,7 @@ Initially, I read about this technique on Andy Robbins Spectre Ops post - [From 
 - Changes made to the CHILD domain objects related to the certificate service are replicated up to the PARENT domain.
 - Certificate Templates are stored in the AD object `CN=Certificate Templates,CN=Public Key Services,CN=Services,CN=Configuration,DC=DomainName,DC=Tld`.
 - Published Certificate Templates, that is, those that are useable, are stored in the `certificateTemplates` value of the `CN=CAName,CN=Enrollment Services,CN=Public Key Services,CN=Services,CN=Configuration,DC=DomainName,DC=Tld` container.
-- Both of these are children of the `CN=Public Key Services,CN=Services,CN=Configuration,DC=DomainName,DC=Tld` container. In the CHILD domain, the SYSTEM user has FULL CONTROL of this container. By default, there is no inheritance to the Certificate Templates and Enrollment Services containers, but with FULL CONTROL, we can add this.
+- Both of these are children of the `CN=Public Key Services,CN=Services,CN=Configuration,DC=DomainName,DC=Tld` container. In the CHILD domain, the SYSTEM user has FULL CONTROL of this container. By default, there is no inheritance to the Enrollment Services container, restricting the ability to publish certificates, but with full control of the PARENT, we can add this.
 - Changes made to this container by the SYSTEM user in the CHILD domain will be replicated up to the PARENT domain!
 
 In essence, this allows us to:
